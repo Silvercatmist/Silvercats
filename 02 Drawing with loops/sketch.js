@@ -16,7 +16,7 @@ function draw() {
   conersAndMouseLoops();
 }
 
-function mousepressed(){
+function mousePressed(){
   // this calls automatically on a mousepress
   xPos.push(mouseX);
   yPos.push(mouseY);
