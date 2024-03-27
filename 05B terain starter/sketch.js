@@ -42,12 +42,17 @@ function widthChange(){
   if(keyIsPressed){
     
     if(keyCode === LEFT_ARROW){
-      rectTime -= 10;
+      //console.log("a",rectWidth)
+      rectWidth -= 10;
+      rectWidth = constrain(rectWidth, 10, width/2);
+      background(255);
       drawRectangles();
     
     }
     else if(keyCode === RIGHT_ARROW){
-      rectTime += 10;
+     // console.log("b",rectWidth)
+      rectWidth += 10;
+      background(255);
       drawRectangles();
     }
 
@@ -60,7 +65,7 @@ function widthChange(){
 function drawFlag(x,y){
   let rectangleHeight = 20;
   let rectangleWidth = 5;
-  let triHeight = 20;
+  // let triHeight = 20;
   rect(45,60,rectangleWidth,rectangleHeight);
   triangle(55,60,55,65,65,63);
 
