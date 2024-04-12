@@ -17,6 +17,8 @@ function drawRectangles(){
   // using a single loop, generate a bunch of side-to=side
   //
   let rectHeight;
+  let highest = 0;
+  let highestX = 0;
   fill(0);
   for(let x = 0; x< width; x += rectWidth){
     //option 1 - pattern
@@ -30,11 +32,15 @@ function drawRectangles(){
     rectHeight = map(rectHeight,0,1,0, height);
     rectTime += 0.1; 
 
+    if(rectHeight > highest ){
+      highest = rectHeight;
+      highestX = x;
+    }
 
-
-    rect(x, height/2,rectWidth, rectHeight);
-    
+    rect(x, height,rectWidth, rectHeight);
   }
+  print(highestX,highest);
+  drawFlag(highestX,height - highest/2);
 }
 
 function widthChange(){
@@ -66,13 +72,17 @@ function drawFlag(x,y){
   let rectangleHeight = 20;
   let rectangleWidth = 5;
   // let triHeight = 20;
-  rect(45,60,rectangleWidth,rectangleHeight);
-  triangle(55,60,55,65,65,63);
+  fill(255,0,0);
+  rect(x,y,rectangleWidth,rectangleHeight);
+  triangle(x,y,x,y-10,x+10,y-5);
 
+
+}
+
+function highestPeak(){
 
 }
 
 function draw() {
   widthChange();
-  drawFlag(88,50);
 }
