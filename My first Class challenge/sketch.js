@@ -3,7 +3,7 @@
 // April 9 2024
 // Creating a class based race
 
-// let racer;
+let racer;
 let circleRacer1;
 let circleRacer2;
 let circleRacer3;
@@ -11,23 +11,23 @@ let circleRacer3;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  // racer = new Roundracer(180,color("blue"));
-  for(let i= 0; ){
-    let c = color(random(255));
-    circleRacer1(new Roundracer(180,c));
-    circleRacer2(new Roundracer(90,c));
-    circleRacer3(new Roundracer(200,c));
-  }
+  racer = new Roundracer(180,color("blue"));
+  // for(let i= 0; ){
+  //   let c = color(random(255));
+  //   circleRacer1(new Roundracer(180,c));
+  //   circleRacer2(new Roundracer(90,c));
+  //   circleRacer3(new Roundracer(200,c));
+  // }
   noStroke();
   background(0);
 }
 
 function draw() {
   background(220);
-  // racer.move();
-  // racer.display();
-  circleRacer1.move();
-  circleRacer1.display();
+  racer.move();
+  racer.display();
+  // circleRacer1.move();
+  // circleRacer1.display();
 }
 
 
