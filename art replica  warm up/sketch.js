@@ -8,6 +8,7 @@
 function setup() {
   createCanvas(windowWidth, windowHeight);
   ranRectangles();
+  angleMode(DEGREES);
 }
 
 function ranRectangles(){
@@ -16,13 +17,20 @@ function ranRectangles(){
       let x = random(width);
   let y = random(height);
   let d = dist(width/2,height/2,x, y);
-  if(d<300){
-    //
-    // fill();
+
+  
+  if(d<100){
+   
     rect(x,y,10,30);
     rect(x,y,10,10);
-  }
+
+  
+    // translate(80,0);
+    let rAmount = map(d, width/2, height/2, 1, 0);
+    rotate(random(-rAmount,rAmount));
     
+  }
+ 
 
   }
 }
@@ -30,4 +38,5 @@ function ranRectangles(){
 
 function draw() {
   // background(220);
+
 }
