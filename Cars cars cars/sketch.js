@@ -7,10 +7,15 @@ let eastbound = [];
 let westbound = [];
 let car = 0;
 let truck = 1;
+let numberPicked;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   // car = new Vehicle(width/2,height/2);
+}
+
+function numberPicked(){
+  random
 }
 
 function drawRoad(){
@@ -50,8 +55,10 @@ class Vehicle{
 
   display(){
     //
-    fill("red");
-    rect(width/2,height/2,9,12);
+    if(numberPicked === 0){
+
+    }
+    
     
   }
 
