@@ -11,7 +11,7 @@ let numberPicked;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  // car = new Vehicle(width/2,height/2);
+  car = new Vehicle(width/2,height/2,1);
 }
 
 
@@ -44,25 +44,35 @@ function draw() {
 
 
 class Vehicle{
-  constructor(x,y){
-    this.carX = x; this.truckX = x; this.carY = y; this.truckY = y;
-    this.c = c; 
-    this.xSpeed = xSpeed; 
+  constructor(x,y,dir){
+    this.x = x; this.y = y; 
+    this.dir = dir; // 0 is east, 1 is west
+    this.xSpeed = random(0,15);
     this.left = 0; this.right = 1;
+    this.type = int(random(0,2));
   }
 
   display(){
     //
-    let numberPicked = random(0,1);
+    
 
-    if(numberPicked === 0){
+    if(this.type === 0){
       fill("red");
-      rect(this.carX,this.carY,20,30);
+      noStroke();
+      rect(this.x,this.y,30,20);
+
 
     }
     else{
       fill("blue");
-      rect(this.truckX,this.truckY,50,70);
+      noStroke();
+      rect(this.x,this.y,70,50);
+      // rect(this.x,this.y,20,10);
+
+
+      // strokeWeight(3);
+      // stroke("purple")
+      // line(this.x,this.y,this.x,this.y);
     }
     
   }
@@ -70,6 +80,7 @@ class Vehicle{
 
   move(){
     //
+    
   }
 
 
@@ -83,6 +94,13 @@ class Vehicle{
 
 
   changeColor(){
+    // let color = 0;
+    // if(color === car){
+    //   color = random(this.c);
+    // }
+    // if(color === truck){
+    //   color = random(this.c);
+    // }
 
   }
 
