@@ -14,9 +14,7 @@ function setup() {
   // car = new Vehicle(width/2,height/2);
 }
 
-function numberPicked(){
-  random
-}
+
 
 function drawRoad(){
   // let x = 30;
@@ -47,18 +45,25 @@ function draw() {
 
 class Vehicle{
   constructor(x,y){
-    this.car = car; this.truck = truck;
-    this.c = c; this.x = x; this.y = y;
+    this.carX = x; this.truckX = x; this.carY = y; this.truckY = y;
+    this.c = c; 
     this.xSpeed = xSpeed; 
     this.left = 0; this.right = 1;
   }
 
   display(){
     //
+    let numberPicked = random(0,1);
+
     if(numberPicked === 0){
+      fill("red");
+      rect(this.carX,this.carY,20,30);
 
     }
-    
+    else{
+      fill("blue");
+      rect(this.truckX,this.truckY,50,70);
+    }
     
   }
 
