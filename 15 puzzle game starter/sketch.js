@@ -47,6 +47,7 @@ function randomize() {
 }
 
 function win() {
+  // tracking score and deciding whether you win or not
   let score = 0;
   for (let y = 0; y < NUM_ROWS; y++) {
     for (let x = 0; x < NUM_COLS; x++) {
@@ -68,8 +69,11 @@ function win() {
   }
   else if (score === -20) {
     console.log("you win");
+    fill("black");
+    text("you win", width / 2, height / 2);
   }
   else console.log("you lose");
+
 }
 
 
