@@ -46,6 +46,7 @@ class Cards {
     this.x = x; this.y = y;
     this.c = c;
     this.side = side;
+    this.value = value;
   }
 
 
