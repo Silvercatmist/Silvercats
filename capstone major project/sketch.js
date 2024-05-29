@@ -35,9 +35,9 @@ function draw() {
 
 }
 
-// function mouseClicked() {
+function matchCard() {
 
-// }
+}
 
 
 function drawScreen() {
@@ -58,11 +58,11 @@ function drawScreen() {
 // }
 
 function drawCardGrid() {
-  // push cards into the array in pairs
+  // push cards into the array 
   for (let y = 0; y < NUM_ROWS; y++) {
     let cardRow = [];
     for(let x = 0; x < NUM_COLS; x++){
-      cardRow.push(new Cards(width/2 * 0.75 + x*100, height/2 * 0.75 + y*100, 1))
+      cardRow.push(new Cards(width/2 * 0.65 + x*100, height/2 * 0.65 + y*100, 1))
     }
     cardGrid.push(cardRow);
   }
@@ -93,6 +93,7 @@ class Cards {
   }
 
   mouseEvent() {
+    if(dist(this.x, this.y,mouseX, mouseY) < 47){
      if (this.side === 1) {
         this.c = color("red");
         this.side = 0;
@@ -103,7 +104,10 @@ class Cards {
           this.side = 1;
         }
       }
+      }
   }
+
+
   display() {
     fill(this.c);
     noStroke();
@@ -114,11 +118,11 @@ class Cards {
 
 
   move() {
-
+    // for(let i = 0; )
 
 
   }
 
 
-  action() { }
+  
 }
