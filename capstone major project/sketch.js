@@ -14,7 +14,7 @@ let cardGrid =
   [];
 
 
-const NUM_ROWS = 4; const NUM_COLS = 4;
+const NUM_ROWS = 4; const NUM_COLS = 6;
 
 
 
@@ -61,8 +61,10 @@ function drawCardGrid() {
   // push cards into the array 
   for (let y = 0; y < NUM_ROWS; y++) {
     let cardRow = [];
-    for(let x = 0; x < NUM_COLS; x++){
-      cardRow.push(new Cards(width/2 * 0.65 + x*100, height/2 * 0.65 + y*100, 1))
+    for(let x = 0; x < NUM_COLS; x+=2){
+      let cardVal = int(random(20))
+      cardRow.push(new Cards(width/2 * 0.65 + x*100, height/2 * 0.65 + y*100, 1, cardVal));
+      cardRow.push(new Cards(width/2 * 0.65 + (x+1)*100, height/2 * 0.65 + y*100, 1, cardVal));
     }
     cardGrid.push(cardRow);
   }
@@ -80,9 +82,9 @@ function mousePressed() {
 }
 
 class Cards {
-  constructor(x, y, side) {
+  constructor(x, y, side, value) {
     this.x = x; this.y = y;
-    this.value = "7";
+    this.value = value;
     this.side = side;// 1(blue) is the back , 0(red) is the front
     if (this.side === 1) {
       this.c = color("blue");
@@ -113,12 +115,19 @@ class Cards {
     noStroke();
     rect(this.x, this.y, 60, 80);
 
+    if(this.side === 1){
+      
+      text(this.value);
+    }
    
   }
 
 
   move() {
-    // for(let i = 0; )
+    // setting a value for each card in the array
+    for(let val of cardGrid){
+      console.log(val);
+    }
 
 
   }
