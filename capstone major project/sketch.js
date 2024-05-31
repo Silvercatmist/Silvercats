@@ -7,6 +7,7 @@
 let card;
 let row;
 let col;
+let numFlipped = 0;
 // let front = color("blue");
 // let back = color("red");
 
@@ -28,7 +29,7 @@ function draw() {
   background(220);
   drawScreen();
   for (let y = 0; y < NUM_ROWS; y++) {
-    for(let x = 0; x < NUM_COLS; x++){
+    for (let x = 0; x < NUM_COLS; x++) {
       cardGrid[y][x].display()
     }
   }
@@ -36,6 +37,8 @@ function draw() {
 }
 
 function matchCard() {
+  // collecting two cards and subtracting them from the grid
+
 
 }
 
@@ -61,10 +64,10 @@ function drawCardGrid() {
   // push cards into the array 
   for (let y = 0; y < NUM_ROWS; y++) {
     let cardRow = [];
-    for(let x = 0; x < NUM_COLS; x+=2){
+    for (let x = 0; x < NUM_COLS; x += 2) {
       let cardVal = int(random(20))
-      cardRow.push(new Cards(width/2 * 0.65 + x*100, height/2 * 0.65 + y*100, 1, cardVal));
-      cardRow.push(new Cards(width/2 * 0.65 + (x+1)*100, height/2 * 0.65 + y*100, 1, cardVal));
+      cardRow.push(new Cards(width / 2 * 0.35 + x * 100, height / 2 * 0.65 + y * 100, 1, cardVal));
+      cardRow.push(new Cards(width / 2 * 0.35 + (x + 1) * 100, height / 2 * 0.65 + y * 100, 1, cardVal));
     }
     cardGrid.push(cardRow);
   }
@@ -73,11 +76,30 @@ function drawCardGrid() {
 // function shuffle(){
 //   // shuffle the cards with the array
 // }
+
+function checkMatches() {
+  let cardRow = [];
+  let cardCol = [];
+  for (let y = 0; y < NUM_ROWS; y++) {
+    for (let x = 0; x < NUM_COLS; x++) {
+      if (cardGrid[y][x].side === 0) {
+        cardRow.push(y);
+        cardCol.push(x);
+      }
+    }
+  }
+ print(cardRow,cardCol);
+}
+
+
 function mousePressed() {
   for (let y = 0; y < NUM_ROWS; y++) {
-    for(let x = 0; x < NUM_COLS; x++){
+    for (let x = 0; x < NUM_COLS; x++) {
       cardGrid[y][x].mouseEvent()
     }
+  }
+  if (numFlipped === 2) {
+    checkMatches();
   }
 }
 
@@ -95,18 +117,19 @@ class Cards {
   }
 
   mouseEvent() {
-    if(dist(this.x, this.y,mouseX, mouseY) < 47){
-     if (this.side === 1) {
+    if (dist(this.x, this.y, mouseX, mouseY) < 47) {
+      if (this.side === 1) {
         this.c = color("red");
         this.side = 0;
+        numFlipped += 1;
       }
-      else {
-        if (this.side === 0) {
-          this.c = color("blue");
-          this.side = 1;
-        }
-      }
-      }
+      // else {
+      //   if (this.side === 0) {
+      //     this.c = color("blue");
+      //     this.side = 1;
+      //   }
+      // }
+    }
   }
 
 
@@ -114,24 +137,20 @@ class Cards {
     fill(this.c);
     noStroke();
     rect(this.x, this.y, 60, 80);
-
-    if(this.side === 1){
-      
-      text(this.value);
+    stroke(0);
+    if (this.side === 0) {
+      text(this.value, this.x, this.y);
     }
-   
+
   }
 
 
   move() {
-    // setting a value for each card in the array
-    for(let val of cardGrid){
-      console.log(val);
-    }
+
 
 
   }
 
 
-  
+
 }
