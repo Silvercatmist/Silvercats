@@ -36,11 +36,7 @@ function draw() {
 
 }
 
-function matchCard() {
-  // collecting two cards and subtracting them from the grid
 
-
-}
 
 
 function drawScreen() {
@@ -60,6 +56,9 @@ function drawScreen() {
 //   return int(constrainY / squareSize);
 // }
 
+
+
+
 function drawCardGrid() {
   // push cards into the array 
   for (let y = 0; y < NUM_ROWS; y++) {
@@ -77,6 +76,20 @@ function drawCardGrid() {
 //   // shuffle the cards with the array
 // }
 
+function matchCard() {
+  // collecting two cards and subtracting them from the grid
+  let cardRow = [];
+  let cardCol = [];
+  if(cardGrid[cardRow[0]][cardCol[0]].value === cardGrid[cardRow[1]][cardCol[1]].value ){
+    cardGrid[cardRow[0]][cardCol[0]].playable = false;
+    cardGrid[cardRow[1]][cardCol[1]].playable = false;
+  }
+  else{
+    // flipping the card back over if wrong
+  }
+}
+
+
 function checkMatches() {
   let cardRow = [];
   let cardCol = [];
@@ -89,6 +102,7 @@ function checkMatches() {
     }
   }
  print(cardRow,cardCol);
+ matchCard();
 }
 
 
@@ -107,6 +121,7 @@ class Cards {
   constructor(x, y, side, value) {
     this.x = x; this.y = y;
     this.value = value;
+    this.playable = true;
     this.side = side;// 1(blue) is the back , 0(red) is the front
     if (this.side === 1) {
       this.c = color("blue");
@@ -118,7 +133,7 @@ class Cards {
 
   mouseEvent() {
     if (dist(this.x, this.y, mouseX, mouseY) < 47) {
-      if (this.side === 1) {
+      if (this.side === 1 && this.playable) {
         this.c = color("red");
         this.side = 0;
         numFlipped += 1;
