@@ -8,9 +8,10 @@ let card;
 let row;
 let col;
 let numFlipped = 0;
+let animationDelay = false;
 // let front = color("blue");
 // let back = color("red");
-
+// let cardRow, cardCol;
 let cardGrid =
   [];
 
@@ -33,6 +34,7 @@ function draw() {
       cardGrid[y][x].display()
     }
   }
+ 
 
 }
 
@@ -76,17 +78,22 @@ function drawCardGrid() {
 //   // shuffle the cards with the array
 // }
 
-function matchCard() {
+function matchCard(row,col) {
   // collecting two cards and subtracting them from the grid
-  let cardRow = [];
-  let cardCol = [];
-  if(cardGrid[cardRow[0]][cardCol[0]].value === cardGrid[cardRow[1]][cardCol[1]].value ){
-    cardGrid[cardRow[0]][cardCol[0]].playable = false;
-    cardGrid[cardRow[1]][cardCol[1]].playable = false;
+ 
+  if(cardGrid[row[0]][col[0]].value === cardGrid[row[1]][col[1]].value ){
+    cardGrid[row[0]][col[0]].playable = false;
+    cardGrid[row[1]][col[1]].playable = false;
   }
   else{
     // flipping the card back over if wrong
+    cardGrid[row[0]][col[0]].side = 1;
+    cardGrid[row[1]][col[1]].side = 1;
   }
+
+animationDelay = true;
+
+  numFlipped = 0;
 }
 
 
@@ -95,14 +102,14 @@ function checkMatches() {
   let cardCol = [];
   for (let y = 0; y < NUM_ROWS; y++) {
     for (let x = 0; x < NUM_COLS; x++) {
-      if (cardGrid[y][x].side === 0) {
+      if (cardGrid[y][x].side === 0 && cardGrid[y][x].playable === true) {
         cardRow.push(y);
         cardCol.push(x);
       }
     }
   }
  print(cardRow,cardCol);
- matchCard();
+ matchCard(cardRow,cardCol);
 }
 
 
@@ -123,11 +130,8 @@ class Cards {
     this.value = value;
     this.playable = true;
     this.side = side;// 1(blue) is the back , 0(red) is the front
-    if (this.side === 1) {
-      this.c = color("blue");
-
-    }
-    else this.c = color("red");
+   this.matchTimer = 0;
+   this.incorrectTimer = 0;
 
   }
 
@@ -149,6 +153,11 @@ class Cards {
 
 
   display() {
+    if (this.side === 1) {
+      this.c = color("blue");
+
+    }
+    else this.c = color("red");
     fill(this.c);
     noStroke();
     rect(this.x, this.y, 60, 80);
