@@ -9,6 +9,7 @@ let row;
 let col;
 let numFlipped = 0;
 let animationDelay = false;
+let delayAmount = 0;
 // let front = color("blue");
 // let back = color("red");
 // let cardRow, cardCol;
@@ -24,17 +25,25 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   // card = new Cards(width / 2, height / 2, 1);
   drawCardGrid();
+ 
 }
 
 function draw() {
   background(220);
-  drawScreen();
+  drawScreen(); 
+ 
   for (let y = 0; y < NUM_ROWS; y++) {
     for (let x = 0; x < NUM_COLS; x++) {
       cardGrid[y][x].display()
     }
   }
- 
+  if (animationDelay === true) {
+    delayAmount -= 1;
+    if (delayAmount === 0) {
+      animationDelay = false;
+      matchCard();
+    }
+  }
 
 }
 
@@ -71,27 +80,44 @@ function drawCardGrid() {
       cardRow.push(new Cards(width / 2 * 0.35 + (x + 1) * 100, height / 2 * 0.65 + y * 100, 1, cardVal));
     }
     cardGrid.push(cardRow);
-  }
+  } 
+  
 }
 
-// function shuffle(){
-//   // shuffle the cards with the array
-// }
+function shuffle(){
+// shuffle the cards within the array 
+for (let y = 0; y < NUM_ROWS; y++) {
+  for (let x = 0; x < NUM_COLS; x++) {
+    let choice = random(row,col);
+    cardGrid[y][x] = choice;
 
-function matchCard(row,col) {
+      }
+    }
+
+  }
+
+
+
+
+
+
+function matchCard() {
   // collecting two cards and subtracting them from the grid
- 
-  if(cardGrid[row[0]][col[0]].value === cardGrid[row[1]][col[1]].value ){
+
+  if (cardGrid[row[0]][col[0]].value === cardGrid[row[1]][col[1]].value) {
     cardGrid[row[0]][col[0]].playable = false;
     cardGrid[row[1]][col[1]].playable = false;
+    cardGrid[row[0]][col[0]].side = 2;
+    cardGrid[row[1]][col[1]].side = 2;
   }
-  else{
+  else {
     // flipping the card back over if wrong
     cardGrid[row[0]][col[0]].side = 1;
     cardGrid[row[1]][col[1]].side = 1;
+
   }
 
-animationDelay = true;
+
 
   numFlipped = 0;
 }
@@ -108,8 +134,12 @@ function checkMatches() {
       }
     }
   }
- print(cardRow,cardCol);
- matchCard(cardRow,cardCol);
+  print(cardRow, cardCol);
+  row = cardRow;
+  col = cardCol;
+  animationDelay = true;
+  delayAmount = 120;
+  //matchCard(cardRow, cardCol);
 }
 
 
@@ -130,8 +160,8 @@ class Cards {
     this.value = value;
     this.playable = true;
     this.side = side;// 1(blue) is the back , 0(red) is the front
-   this.matchTimer = 0;
-   this.incorrectTimer = 0;
+    this.matchTimer = 0;
+    this.incorrectTimer = 0;
 
   }
 
@@ -157,7 +187,12 @@ class Cards {
       this.c = color("blue");
 
     }
-    else this.c = color("red");
+    else if (this.side === 0) {
+      this.c = color("red");
+    }
+    else {
+      this.c = color("grey");
+    }
     fill(this.c);
     noStroke();
     rect(this.x, this.y, 60, 80);
