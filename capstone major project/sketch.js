@@ -57,15 +57,8 @@ function drawScreen() {
   rect(width / 2, height / 2, width / 2 + 380, height / 2 + 120)
 }
 
-// function getCurrentX(){
-//   let constrainX = constrain(mouseX, 0, width - 1);
-//   return int(constrainX / squareSize);
-// }
-
-// function getCurrentY(){
-//   let constrainY = constrain(mouseY, 0, height- 1);
-//   return int(constrainY / squareSize);
-// }
+// function scoring(){}
+// function newRound(){}
 
 
 
