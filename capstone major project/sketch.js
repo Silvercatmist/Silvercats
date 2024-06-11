@@ -25,7 +25,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   // card = new Cards(width / 2, height / 2, 1);
   drawCardGrid();
- 
+  // shuffle();
 }
 
 function draw() {
@@ -88,8 +88,8 @@ function shuffle(){
 // shuffle the cards within the array 
 for (let y = 0; y < NUM_ROWS; y++) {
   for (let x = 0; x < NUM_COLS; x++) {
-    let choice = random(row,col);
-    cardGrid[y][x] = choice;
+    let switchCards = random(cardGrid[row][col]);
+   
 
       }
     }
