@@ -61,159 +61,164 @@ function drawScreen() {
 //   let score = 0;
 //   for (let y = 0; y < NUM_ROWS; y++) {
 //     for (let x = 0; x < NUM_COLS; x++) {
-//       if (cardGrid[y][x].playable === false) {
+//       if (cardGrid[row[0]][col[0]].playable && cardGrid[row[1]][col[1]].playable === false) {
 //         score += 1;
 //       }
 //     }
 //   }
-//   if(score === 8){}
+//   if (score === 8) {
+//     text("you win");
+//   }
+//   else {
+
+//   }
 // }
 
-  // function newRound(){}
+// function newRound(){}
 
 
 
 
-  function drawCardGrid() {
-    // push cards into the array 
-    for (let y = 0; y < NUM_ROWS; y++) {
-      let cardRow = [];
-      for (let x = 0; x < NUM_COLS; x += 2) {
-        let cardVal = int(random(20))
-        cardRow.push(new Cards(width / 2 * 0.35 + x * 100, height / 2 * 0.65 + y * 100, 1, cardVal));
-        cardRow.push(new Cards(width / 2 * 0.35 + (x + 1) * 100, height / 2 * 0.65 + y * 100, 1, cardVal));
-      }
-      cardGrid.push(cardRow);
+function drawCardGrid() {
+  // push cards into the array 
+  for (let y = 0; y < NUM_ROWS; y++) {
+    let cardRow = [];
+    for (let x = 0; x < NUM_COLS; x += 2) {
+      let cardVal = int(random(20))
+      cardRow.push(new Cards(width / 2 * 0.35 + x * 100, height / 2 * 0.65 + y * 100, 1, cardVal));
+      cardRow.push(new Cards(width / 2 * 0.35 + (x + 1) * 100, height / 2 * 0.65 + y * 100, 1, cardVal));
     }
+    cardGrid.push(cardRow);
+  }
+
+}
+
+function shuffle() {
+  // shuffle the cards within the array 
+  for (let y = 0; y < NUM_ROWS; y++) {
+    for (let x = 0; x < NUM_COLS; x++) {
+      let switchCards = random(cardGrid[row][col]);
+
+
+    }
+  }
+
+}
+
+
+
+
+
+
+function matchCard() {
+  // collecting two cards and subtracting them from the grid
+
+  if (cardGrid[row[0]][col[0]].value === cardGrid[row[1]][col[1]].value) {
+    cardGrid[row[0]][col[0]].playable = false;
+    cardGrid[row[1]][col[1]].playable = false;
+    cardGrid[row[0]][col[0]].side = 2;
+    cardGrid[row[1]][col[1]].side = 2;
+  }
+  else {
+    // flipping the card back over if wrong
+    cardGrid[row[0]][col[0]].side = 1;
+    cardGrid[row[1]][col[1]].side = 1;
 
   }
 
-  function shuffle() {
-    // shuffle the cards within the array 
-    for (let y = 0; y < NUM_ROWS; y++) {
-      for (let x = 0; x < NUM_COLS; x++) {
-        let switchCards = random(cardGrid[row][col]);
 
 
+  numFlipped = 0;
+}
+
+
+function checkMatches() {
+  let cardRow = [];
+  let cardCol = [];
+  for (let y = 0; y < NUM_ROWS; y++) {
+    for (let x = 0; x < NUM_COLS; x++) {
+      if (cardGrid[y][x].side === 0 && cardGrid[y][x].playable === true) {
+        cardRow.push(y);
+        cardCol.push(x);
       }
     }
+  }
+  print(cardRow, cardCol);
+  row = cardRow;
+  col = cardCol;
+  animationDelay = true;
+  delayAmount = 120;
+  //matchCard(cardRow, cardCol);
+}
+
+
+function mousePressed() {
+  for (let y = 0; y < NUM_ROWS; y++) {
+    for (let x = 0; x < NUM_COLS; x++) {
+      cardGrid[y][x].mouseEvent()
+    }
+  }
+  if (numFlipped === 2) {
+    checkMatches();
+  }
+}
+
+class Cards {
+  constructor(x, y, side, value) {
+    this.x = x; this.y = y;
+    this.value = value;
+    this.playable = true;
+    this.side = side;// 1(blue) is the back , 0(red) is the front
+    this.matchTimer = 0;
+    this.incorrectTimer = 0;
 
   }
 
+  mouseEvent() {
+    if (dist(this.x, this.y, mouseX, mouseY) < 47) {
+      if (this.side === 1 && this.playable) {
+        this.c = color("red");
+        this.side = 0;
+        numFlipped += 1;
+      }
+      // else {
+      //   if (this.side === 0) {
+      //     this.c = color("blue");
+      //     this.side = 1;
+      //   }
+      // }
+    }
+  }
 
 
+  display() {
+    if (this.side === 1) {
+      this.c = color("blue");
 
-
-
-  function matchCard() {
-    // collecting two cards and subtracting them from the grid
-
-    if (cardGrid[row[0]][col[0]].value === cardGrid[row[1]][col[1]].value) {
-      cardGrid[row[0]][col[0]].playable = false;
-      cardGrid[row[1]][col[1]].playable = false;
-      cardGrid[row[0]][col[0]].side = 2;
-      cardGrid[row[1]][col[1]].side = 2;
+    }
+    else if (this.side === 0) {
+      this.c = color("red");
     }
     else {
-      // flipping the card back over if wrong
-      cardGrid[row[0]][col[0]].side = 1;
-      cardGrid[row[1]][col[1]].side = 1;
-
+      this.c = color("grey");
+    }
+    fill(this.c);
+    noStroke();
+    rect(this.x, this.y, 60, 80);
+    stroke(0);
+    if (this.side === 0) {
+      text(this.value, this.x, this.y);
     }
 
-
-
-    numFlipped = 0;
   }
 
 
-  function checkMatches() {
-    let cardRow = [];
-    let cardCol = [];
-    for (let y = 0; y < NUM_ROWS; y++) {
-      for (let x = 0; x < NUM_COLS; x++) {
-        if (cardGrid[y][x].side === 0 && cardGrid[y][x].playable === true) {
-          cardRow.push(y);
-          cardCol.push(x);
-        }
-      }
-    }
-    print(cardRow, cardCol);
-    row = cardRow;
-    col = cardCol;
-    animationDelay = true;
-    delayAmount = 120;
-    //matchCard(cardRow, cardCol);
-  }
-
-
-  function mousePressed() {
-    for (let y = 0; y < NUM_ROWS; y++) {
-      for (let x = 0; x < NUM_COLS; x++) {
-        cardGrid[y][x].mouseEvent()
-      }
-    }
-    if (numFlipped === 2) {
-      checkMatches();
-    }
-  }
-
-  class Cards {
-    constructor(x, y, side, value) {
-      this.x = x; this.y = y;
-      this.value = value;
-      this.playable = true;
-      this.side = side;// 1(blue) is the back , 0(red) is the front
-      this.matchTimer = 0;
-      this.incorrectTimer = 0;
-
-    }
-
-    mouseEvent() {
-      if (dist(this.x, this.y, mouseX, mouseY) < 47) {
-        if (this.side === 1 && this.playable) {
-          this.c = color("red");
-          this.side = 0;
-          numFlipped += 1;
-        }
-        // else {
-        //   if (this.side === 0) {
-        //     this.c = color("blue");
-        //     this.side = 1;
-        //   }
-        // }
-      }
-    }
-
-
-    display() {
-      if (this.side === 1) {
-        this.c = color("blue");
-
-      }
-      else if (this.side === 0) {
-        this.c = color("red");
-      }
-      else {
-        this.c = color("grey");
-      }
-      fill(this.c);
-      noStroke();
-      rect(this.x, this.y, 60, 80);
-      stroke(0);
-      if (this.side === 0) {
-        text(this.value, this.x, this.y);
-      }
-
-    }
-
-
-    move() {
-
-
-
-    }
+  move() {
 
 
 
   }
+
+
+
+}
