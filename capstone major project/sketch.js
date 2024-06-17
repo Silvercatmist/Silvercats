@@ -26,6 +26,7 @@ function setup() {
   // card = new Cards(width / 2, height / 2, 1);
   drawCardGrid();
   // shuffle();
+  // scoring();
 }
 
 function draw() {
