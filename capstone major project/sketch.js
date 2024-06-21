@@ -25,7 +25,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   // card = new Cards(width / 2, height / 2, 1);
   drawCardGrid();
-  // shuffle();
+  shuffleCards();
   // scoring();
 }
 
@@ -45,7 +45,10 @@ function draw() {
       matchCard();
     }
   }
-
+  if(scoring()){
+    textSize(12);
+    text("you win",width/2, height/2);
+  }
 }
 
 
@@ -58,24 +61,19 @@ function drawScreen() {
   rect(width / 2, height / 2, width / 2 + 380, height / 2 + 120)
 }
 
-// function scoring() {
-//   let score = 0;
-//   for (let y = 0; y < NUM_ROWS; y++) {
-//     for (let x = 0; x < NUM_COLS; x++) {
-//       if (cardGrid[row[0]][col[0]].playable && cardGrid[row[1]][col[1]].playable === false) {
-//         score += 1;
-//       }
-//     }
-//   }
-//   if (score === 8) {
-//     text("you win");
-//   }
-//   else {
+function scoring() {
+  let score = 0;
+  for (let y = 0; y < NUM_ROWS; y++) {
+    for (let x = 0; x < NUM_COLS; x++) {
+      if (cardGrid[y][x].side !== 2) {
+        return false;
+      }
+    }
+  }
+ return true; 
+}
 
-//   }
-// }
-
-// function newRound(){}
+function newRound(){}
 
 
 
@@ -94,14 +92,27 @@ function drawCardGrid() {
 
 }
 
-function shuffle() {
+
+function shuffleCards() {
   // shuffle the cards within the array 
-  for (let y = 0; y < NUM_ROWS; y++) {
-    for (let x = 0; x < NUM_COLS; x++) {
-      let switchCards = random(cardGrid[row][col]);
+  for (let i = 0; i < 200; i++) {
+    let x1 = int(random(0,6));
+    let y1 = int(random(0,4));
+    let x2 = int(random(0,6));
+    let y2 = int(random(0,4));
+    let temp = cardGrid[y1][x1];
+    cardGrid[y1][x1] = cardGrid[y2][x2];
+    cardGrid[y2][x2] = temp;
 
 
-    }
+    let tempX = cardGrid[y1][x1].x;
+    let tempY = cardGrid[y1][x1].y;
+
+    cardGrid[y1][x1].x = cardGrid[y2][x2].x;
+    cardGrid[y1][x1].y = cardGrid[y2][x2].y;
+
+    cardGrid[y2][x2].x = tempX;
+    cardGrid[y2][x2].y = tempY;
   }
 
 }
